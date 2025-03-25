@@ -14,13 +14,33 @@ Used to store contents
 
 `.` the last inserted text
 
+`0` the yank register
+
+`=` the expression register
+
+There are ten types of registers:		*registers* *{register}* *E354*
+1. The unnamed register ""
+2. 10 numbered registers "0 to "9
+3. The small delete register "-
+4. 26 named registers "a to "z or "A to "Z
+5. Three read-only registers ":, "., "%
+6. Alternate buffer register "#
+7. The expression register "=
+8. The selection and drop registers "*, "+ and "~ 
+9. The black hole register "_
+10. Last search pattern register "/
+
 ## Specify register
 
+### Normal mode / Visual mode
 Prefix action with `"{register}`.
 
 lowercase letter: obliterate existing contents and write to the specified register
 
 uppercase letter: append contents to the end of the existing contents in the specified register
+
+### Insert mode
+Press <C-r> followed by {register}
 
 # Macros
 

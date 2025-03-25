@@ -2,6 +2,10 @@ Command-line mode is used to enter Ex commands (":"), search patterns ("/" and "
 
 # Ex command-line
 
+Press or `:` in normal mode to enter command-line mode.  
+
+Press `Q` or `gQ` in Neovim to enter Ex mode.
+
 Format: `:[range] {excommand} [args]`
 
 ex commands example (`[x]` stands for register, which is optional):
@@ -28,8 +32,8 @@ Feel free to combine `address` into a `range`:
 
 Special range:
 
-- `%`: The entire file (`1,$`)
-- `'<`/`>'`: The selected range in Visual mode.
+- `%`: The entire file (equivalent: `1,$`)
+- `'<,'>`: The selected range in Visual mode.
 
 
 
@@ -38,7 +42,8 @@ Special range:
 Delete, yank and print (`x`: *register*, optional): 
 
 ````
-:[range] delete [x]
+:[range] d [x] 
+:[range] delete [x] 
 :[range] print
 :[range] yank[x]
 ````
@@ -51,7 +56,7 @@ Copy, move and put:
 :[address] put [x]
 ```
 
-## Normal command
+### Normal command
 
 ```
 :[range] normal {commands}
@@ -61,25 +66,41 @@ Execute Normal mode commands {commands}.  This makes it possible to execute Norm
 
 **Tips**: Combine Normal commands with `.` and macros!
 
-## Substitute command
 
-```
-:[range]s[ubstitute]/{pattern}/{string}/[flags] [count]
-```
+## More
+You are close to `ed`, the ancient line-oriented text editor. Give it a shot!
 
-Replace a match of {pattern} with {string} for each lines in [range]. When [count] is given, replace in [count] lines, starting with the last line in [range]. When [range] is omitted, start in the current line.
+# Enter Ex mode 
 
-Flags: 
-`g`: Replace all the matches in each line.
-`i`: Ignore case.
-`c`: Confirm before substitute.
-`n`: Count instead of substitute.
+Press `Q` or `gQ` in *Normal mode* to enter Ex-mode, press `:visual` or `:vi` to exit. 
 
-`:%s/Vim/whatever/n`: Count the number of times `Vim` appears.
+## Tricks
 
-`:s/old/new`	substitute new for the 1st old in a line  
-`:s/old/new/g`	substitute new for all 'old's on a line (globally in a line)    
-`:s/old/new/gc`	ask for confirmation each time  
-`:%s/old/new/g`	substitute all occurrences in the file   
-`:#,#s/old/new/g`	between 2 lines, where #,# are the line numbers of the range  
-`:s/old/new/gc`	all, with confirmation
+Use `|` to concatenate two commands.  
+
+Sort the text in [range] reversely: `[range]!sort -r`.  
+
+Command-line mode is used to enter Ex commands (":"), search patterns ("/" and "?"), and filter commands ("!").
+
+
+
+## Ex command history
+
+Open Ex-command history by pressing `q:` in *normal mode*, or by `<C-j>` in Ex mode.
+
+Cycle through history with `j` and `k`, or use `<C-p>` and `<C-n>` alternatively. Use `:[number]` to move focus to the [number]'s command in the list. 
+
+You can edit the commands in the history, and press `<CR>` to run the command at cursor.
+
+
+
+Command-line mode is used to enter Ex commands (":"), search patterns ("/" and "?"), and filter commands ("!").
+
+# Filter commands (Shell commands)
+1. Sort the text in [range] reversely: `:[range]!sort -r`.
+2. Insert file contents below after line [num]:   `:r ../example.txt`
+3. Save with sudo: `:w !sudo tee %`  
+4. Insert date below the cursorline:   `:r !date`
+5. Insert Unix timestamp:  `r!date "+\%s`, where backslash escapes `%` so the shell receives `+%s`.
+
+

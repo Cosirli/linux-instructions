@@ -41,3 +41,4 @@ In order to leave an modified buffer/file without changing the modification time
 `:h insert-index`
 `:h user-manual`
 `:h vimrc-intro`
+`:h rtp`
