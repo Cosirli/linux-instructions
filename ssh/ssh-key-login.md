@@ -96,3 +96,30 @@ $ ssh-keygen -p -f ~/.ssh/id_keyname
 ```
 
 then provide your old and new passphrase (twice) at the prompts.  
+
+
+
+# SSH options
+- `-i`: Specify a SSH private keyfile (`i` for identity) (passed to `ssh`)
+- `-p`: Use a different port
+- `-4`: Forces scp to use IPv4 addresses only.
+- `-6`: Forces scp to use IPv6 addresses only.
+- `-A`: Allows forwarding of ssh-agent to the remote system.
+- `-C`: Compression enable. (passed to `ssh`)
+- `-J`: Use a 
+
+
+
+
+
+# Troubleshooting
+
+
+## Permission denied (publickey).
+
+Add your SSH key to ssh-agent.
+```bash
+eval `ssh-agent -s` # eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/your_private_keyfile
+```
+
