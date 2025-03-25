@@ -27,6 +27,40 @@ patch unix-like < gnu.patch
 `patch`: apply a `diff` file to an original  
 
 
+# tr
+
+`tr` stands for translation. Used for translating and deleting characters.
+
+```bash
+tr [options] set1 [set2] # only work on discrete chars, not their combinations
+```
+
+## Options: 
+
+`-d` : Delete the characters in the first set
+`-c` : Complement the first set of characters (operate only on the chars NOT in the first set)
+`-s` : Remove multiple adjacent occurrence of chars in the first set
+`-t` : Truncate the first set to length of the second set
+
+
+## Example usage
+
+*Delete*:
+```bash
+cat sample.txt | tr -cd ‘is’     # delete characters except i and s
+```
+
+*Remove* adjacent repetitive characters:
+```bash
+echo “Text hass  too many   spaces” | tr -s ”s “    # output: Text has too many spaces
+```
+
+*Replace*. The matching is done one by one basis. If the second set is smaller than the first, last character of the second set is repeated unless option `-t` is applied.
+```bash
+cat sample.txt | tr 'a-z' 'A-Z'          # convert into all capital letters
+cat sample.txt | tr [:lower:] [:upper:]  # equivalent, but uses *character classes*
+echo "This is my life, and this is my file" | tr ‘ilm’ ‘tyz’
+```
 
 # sort
 
@@ -106,11 +140,11 @@ wc -l < agatha.txt
 
 Remove sections from each line of files.
 
-```
+```bash
 cut OPTION... [FILES]...
 ```
 
-`cut` will *never reorder or duplicate data*.
+`cut` will **never** *reorder* or *duplicate* data.
 
 Print each line
 
