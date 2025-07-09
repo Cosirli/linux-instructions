@@ -1,46 +1,37 @@
 In regular expressions, **anchors** are special characters that help define the position of the pattern you’re trying to match relative to the text. They don’t actually match any characters themselves, but they represent positions in the string.
 
-### 1. **Caret `^` (Beginning of a Line or String)**
-- **Definition**: The `^` anchor matches the **beginning of a line** or **beginning of a string**.
+### 1. **Caret `^` and Doller Sign `$`**
+- **Definition**: The `^` anchor matches the **beginning of a string**, and the `$` anchor matches the **end of a string**.  
+When working in **multiline mode** (which can be enabled in some regex implementations), the `^` anchor will match the beginning of each line, and the `$` anchor will match the end of each line.
+- 
+  **Example**:
+  In multiline mode, the regex:
+
+  ```regex
+  ^apple
+  ```
+
+  Will match:
+  ```
+  apple pie
+  apple tree
+  ```
   
-```regex
-^apple
-```
+  But **not**:
+ 
+  ```
+  I like apple pie
+  ```
+  
+  On the contrary to normal mode, where `^` only matches the start of the string.
 
-This would match:
-```
-apple pie
-apple tree
-```
-But **not**:
-```
-I like apple pie
-```
 
-### 2. **Dollar Sign `$` (End of a Line or String)**
-- **Definition**: The `$` anchor matches the **end of a line** or **end of a string**.
-```regex
-ing$
-```
 
-This would match:
-```
-playing
-running
-eating
-```
-But **not**:
-```
-I am playing
-```
+### 2. **Word Boundary `\b`**
+The `\b` anchor matches a **word boundary**. A word boundary occurs where a word character (`\w` which includes letters, digits, and underscore) is next to a non-word character (`\W`).
+Escaped "angle brackets" `\<...\>` mark word boundaries, too. The angle brackets must be escaped, since otherwise they have only their literal character meaning.
 
-### 3. **Word Boundary `\b`**
-- **Definition**: The `\b` anchor matches a **word boundary**. A word boundary occurs where a word character (`\w` which includes letters, digits, and underscore) is next to a non-word character (`\W`).
-```regex
-\bcat\b
-```
-
-This will match:
+`\bcat\b` or `\<bcat\>` will match:
 ```
 cat
 The cat sat.
@@ -49,25 +40,27 @@ The cat sat.
 But **not**:
 ```
 scatter
+cats
 ```
 
-### 4. **Non-Word Boundary `\B`**
-- **Definition**: The `\B` anchor matches a **position that is not a word boundary**. In other words, it matches where a word character is adjacent to another word character or a non-word character is adjacent to another non-word character.
+### 3. **Non-Word Boundary `\B`**
+The `\B` anchor matches a **position that is not a word boundary**. In other words, it matches where a word character is adjacent to another word character or a non-word character is adjacent to another non-word character.
 ```regex
-\Bcat\B
+\bcat\B
 ```
 
 This will match:
 ```
-scatter
+cats
+category
 ```
 
 But **not**:
 ```
-The cat sat.
+The cat scatter.
 ```
 
-### 5. **Start of the String `\A` (Available in Some Implementations)**
+### 4. **Start of the String `\A` (Available in Some Implementations)**
 - **Definition**: The `\A` anchor matches the **start of the string**, regardless of whether the regex is working in multiline mode.
 ```regex
 \Aapple
@@ -75,7 +68,7 @@ The cat sat.
 
 This will match if `apple` appears at the very start of the string, but it won't work if it appears in the middle or end.
 
-### 6. **End of the String `\Z` (Available in Some Implementations)**
+### 5. **End of the String `\Z` (Available in Some Implementations)**
 - **Definition**: The `\Z` anchor matches the **end of the string**, similar to `$`, but it ensures the very last position in the string and does **not match a line break** before the end of the string.
 - **Usage**: Similar to `$`, but it ensures that it doesn’t match just before a newline character.
 
@@ -95,28 +88,6 @@ apple pie
 
 Because it ensures that there’s no newline after `apple`.
 
-### 7. **Multiline Anchors `^` and `$` (in Multiline Mode)**
-- **Definition**: When working in **multiline mode** (which can be enabled in some regex implementations), `^` and `$` can also match the start and end of each line, not just the start and end of the entire string.
-- **Usage**: The `^` anchor will match the beginning of each line, and the `$` anchor will match the end of each line.
-  
-  **Example**:
-  In multiline mode, the regex:
-
-  ```regex
-  ^apple
-  ```
-
-  Will match:
-  ```
-  apple pie
-  apple tree
-  ```
-  But **not**:
-  ```
-  I like apple pie
-  ```
-
-  In contrast to normal mode, where `^` only matches the start of the string.
 
 ---
 
@@ -135,5 +106,4 @@ Because it ensures that there’s no newline after `apple`.
 
 ### Conclusion:
 - **Anchors** in regex allow you to control the position of your matches within a string or line.
-- Common anchors include `^` for the beginning, `$` for the end, and `\b` and `\B` for word boundaries.
-- Understanding anchors helps you define more precise patterns for matching text in different contexts, especially when working with structured data or multiline inputs.
+- Anchors cause the match to occur only if the regex is found at the position specified by the anchor.

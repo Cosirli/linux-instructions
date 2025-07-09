@@ -15,8 +15,8 @@ uniq -c <(cat gnu linux | sort)
 
 # diff and patch
 
-`-u` output NUM (default 3) lines of unified output (generate a patch)  
-`-y` side by side, output in two columns
+- `-u` output NUM (default 3) lines of unified output (generate a patch)  
+- `-y` side by side, output in two columns
 
 ```bash
 touch unix-like
@@ -37,10 +37,10 @@ tr [options] set1 [set2] # only work on discrete chars, not their combinations
 
 ## Options: 
 
-`-d` : Delete the characters in the first set
-`-c` : Complement the first set of characters (operate only on the chars NOT in the first set)
-`-s` : Remove multiple adjacent occurrence of chars in the first set
-`-t` : Truncate the first set to length of the second set
+- `-d` : Delete the characters in the first set
+- `-c` : Complement the first set of characters (operate only on the chars NOT in the first set)
+- `-s` : Remove multiple adjacent occurrence of chars in the first set
+- `-t` : Truncate the first set to length of the second set
 
 
 ## Example usage

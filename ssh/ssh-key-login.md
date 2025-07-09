@@ -22,7 +22,7 @@ ssh-keygen -t dsa -b 4096 -C "username_on_host@host" -f id_mykey
 Using the `ssh-copy-id` command ensures your key is copied into the correct location (`~/.ssh/authorized_keys`).  
 
 ```bash
- ssh-copy-id -i ~/.ssh/id_mykey.pub -p 2291 user1@server_name
+ssh-copy-id -i ~/.ssh/id_mykey.pub -p 2291 user1@server_name
 ```
 
 If this command doesn't work, manually add your public key.  
@@ -49,7 +49,7 @@ If you have multiple keys, make sure you're using the correct one when logging i
 You can specify the private key with the `-i` option.  
 
 ```bash
- ssh -i ~/.ssh/id_mykey user1@server_name -p 2291
+ssh -i ~/.ssh/id_mykey user1@server_name -p 2291
 ```
 
 

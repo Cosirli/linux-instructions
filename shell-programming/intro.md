@@ -68,7 +68,7 @@ if [[ $? -ne 0 ]]; then
 Bash implements many comparisons of this sort - you can find a detailed list in the manpage for [`test`](https://www.man7.org/linux/man-pages/man1/test.1.html)
 
 
-### If-else statements
+### Conditionals
 ```bash
 touch hello
 if [ -f hello ]; then
@@ -78,6 +78,25 @@ elif [ -f tryhello ]; then
 else
     echo "no"
 fi
+
+[ -f hello ] && echo yes || echo no
+```
+
+#### `[[]]`: a bash extension
+
+Supports regex.
+```bash
+a=01
+if [[ "$a" =~ ^-?[0-9]+$ ]] then
+    echo "integer"
+else
+    echo "no"
+fi
+```
+
+#### `(())`: conditional for arithmetic operations
+```bash
+a=-1; if (( a>= 0)); then echo positive; else echo negative; fi
 ```
 
 ### Loops
@@ -94,6 +113,27 @@ While loop:
 while [ expr ]; do
     # do something
 done
+```
+
+#### Example: batch process files
+
+Rename:
+```bash
+n=0; for i in $(command ls -tr); do mv "$i" "$n-$i"; n=$((n+1)); done
+```
+
+Edit:
+```bash
+for i in 0[0-9]?*; do sed -i '/@since/s/$/,\ 2026/' $i; done
+```
+
+Execute repeatedly:
+```bash
+cnt=0; for i in {1..100}
+    do stdout=$(./ctarget -i raw3.txt | grep PASS)
+    if [[ ${stdout} == "PASS" ]]; then 
+	((cnt++)); fi
+done; echo $cnt
 ```
 
 
@@ -118,3 +158,14 @@ for arg in reversed(sys.argv[1:]):
 
 It is good practice to write shebang lines using the [`env`](https://www.man7.org/linux/man-pages/man1/env.1.html) command that will resolve to wherever the command lives in the system, increasing the *portability* of your scripts. To resolve the location, `env` will make use of the `PATH` environment variable. For this example the shebang would look like `#!/usr/bin/env python3`.
 
+# Array
+
+```bash
+a=(1 2 3)
+echo $a
+echo ${a[1]}
+packages=(htop mpv yay)
+for pkg in ${packages[@]}; do
+    sudo pacman -S --needed ${pkg}
+done
+```

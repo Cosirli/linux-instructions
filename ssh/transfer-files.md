@@ -117,24 +117,62 @@ bye # exit
 
 # rsync
 
-```bash
-
-```
-
-## TLDR
-
-Transfer files either to or from a remote host (but not between two remote hosts), by default using SSH.
+Transfer files either to or from a remote host (but not between two remote hosts), by default using SSH. Works on between local directories as well.
 To specify a *remote* path, use `user@hostname:path/to/file_or_directory`.
 
 ```bash
 rsync -e 'ssh -p 2222 -i ~/.ssh/id_rsa' -avz /path/to/src 2 user@host:/path/to/destination
 ```
 
+Trick: append a trailing `/` to the source directory name to copy the contents (including hidden files) of the source directory and not the source directory itself. Use `source/*` to copy non-hidden files only.
+
+## Options
+
+Options can be prefixed with `--no-` to negate them.
+
+### archive
+
+The `--archive`, or simply `-a` option explained:
+
+- `-a`: This is equivalent to `-rlptgoD`. It is a quick way of saying you want recursion and want to preserve almost everything. Be aware that it does not include preserving ACLs (-A), xattrs (-X), atimes (-U), crtimes (-N), nor the finding and preserving of hardlinks (-H).
+- `-r`: recursive
+- `-l`: copy symlinks without resolving (`--links`)
+- `-p`: preserve permissions (causes the receiving rsync to set the destination permissions to be the same as the source)
+- `-t`: preserve modification time
+- `-g`: preserve group
+- `-o`: preserve owner
+- `-D`: equivalent to `--devices --specials`
+
+### manage attributes
+
+- `-E`: with `--no-perms`, updates executability (or non-executability) of *regular files*. A regular file is considered to be executable if at least one 'x' is turned on in its mode. When an existing destination file's executability differs from that of the corresponding source file, rsync modifies the destination file's permissions as follows: To make a file non-executable, rsync turns off all its 'x' permissions; to make a file executable, rsync turns on each 'x' permission that has a corresponding 'r' permission enabled. (`--executability`)
+
+- `--chmod=MODES`: use `rwX` instead of `rwx`; optionally specify file by prefixing `F`, directory by prefixing `D`; separated by commas
+
+To modify the *executability behavior* of files such that if the **owner** has execute permission, the *group* would also have execute permission, combine `--executability` with `--chmod=F+X`. Example:
+
+```bash
+rsync -azv --no-group --no-perms --chmod=Fg+X,Dg+wX --executability
+```
+
+This propagates the mode `x` of the owner to the group. Non-executable files' executability remains unchanged.
+
+
+### transfer behavior
+
+- `-z`: compress the data as it is sent to the destination (`--compress`)
+- `-u`: skip files that are newer on the destination (`--update`)
+- `--delete`: delete files on the destination that don't exist on the source
+
+```bash
+rsync -azvU --progress --no-group --no-perms --chmod=Fg+w,Dg+wX --executability --delete --exclude .git path/to/source path/to/destination
+```
+
+## TLDR
+
+
 ```bash
   More information: https://download.samba.org/pub/rsync/rsync.1.
-
-  - Transfer a file:
-    rsync path/to/source path/to/destination
 
   - Use archive mode (recursively copy directories, copy symlinks without resolving, and preserve permissions, ownership and modification times):
     rsync [-a|--archive] path/to/source path/to/destination
