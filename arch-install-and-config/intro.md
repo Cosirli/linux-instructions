@@ -121,7 +121,7 @@ make boot
 mkfs.fat -F32 /dev/mmcblk1p1
 ```
 
-make root: `ext4`, `btrfs`, ...
+make root: `ext4`, `xfs`, `btrfs`, ...
 
 ```
 mfs.ext4 /dev/mkcblk1p2
