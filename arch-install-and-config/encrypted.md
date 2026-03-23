@@ -205,7 +205,7 @@ vim /etc/crypttab
 # Explained: Unlock the device of specified UUID, and name it 'crypthome'
 ```
 
-Then generate initramfs
+Then generate initramfs (below is a udev-based initramfs)
 
 ```bash
 vim /etc/mkinitcpio.conf
