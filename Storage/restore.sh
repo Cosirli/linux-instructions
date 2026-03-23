@@ -31,7 +31,7 @@ FILES=($(ls "$SRC_DIR"/"$PREFIX".tar.zst* | sort))
 DECRYPT_CMD=(cat)
 if [[ "${FILES[0]}" == *.gpg* ]]; then
     echo "Encrypted backup detected."
-    DECRYPT_CMD=(gpg --decrypt --batch --pinentry-mode loopback)
+    DECRYPT_CMD=(gpg --decrypt --pinentry-mode loopback)
 fi
 
 # 3. Restore Data
